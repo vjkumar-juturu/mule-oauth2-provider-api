@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oauth2-provider="http://www.mulesoft.org/schema/mule/oauth2-provider" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/schema/mule/oauth2-provider/current/mule-oauth2-provider.xsd">
+	<flow name="mule-oauth-create-client" doc:id="76227d5f-db3d-490c-bf2b-3903ff0b37ff" >
+		<http:listener doc:name="Listener" doc:id="67c206cf-913d-4b07-b5f5-f91d5c87d29b" config-ref="HTTP_Listener_config" path="/create-client"/>
+		<oauth2-provider:create-client doc:name="Create client" doc:id="a5dc6d2a-7e0d-48ff-b61a-48e86efca6e0" config-ref="OAuth2_Provider_Config" clientId="#[attributes.headers.client_id]" type="CONFIDENTIAL" secret="#[attributes.headers.client_secret]" clientName="#[attributes.headers.client_name]" description='#[""]' principal='#[""]' redirectUris='#[["google.com"]]' authorizedGrantTypes='#[["CLIENT_CREDENTIALS"]]' scopes="#[[]]" failIfPresent="true"/>
+		<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	status: 200,&#10;	message: "client successfully created"&#10;}]' doc:name="Set Payload" doc:id="c05bd651-a09a-4aec-ab40-5edfaf0ca044" />
+	</flow>
+	<flow name="mule-oauth-validateToken" doc:id="c2dd6fdd-d442-4c23-bf31-51cd1b6eceb4" >
+		<http:listener doc:name="Listener" doc:id="af35849f-8b3d-4526-9cc1-03aef633cc6d" config-ref="HTTP_Listener_config" path="/validateToken"/>
+		<oauth2-provider:validate-token doc:name="Validate token" doc:id="0c2bb4cd-b724-49d6-9469-c1722e33c949" config-ref="OAuth2_Provider_Config"/>
+	</flow>
+</mule>

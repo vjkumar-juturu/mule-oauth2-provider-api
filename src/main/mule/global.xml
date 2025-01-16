@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oauth2-provider="http://www.mulesoft.org/schema/mule/oauth2-provider" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/schema/mule/oauth2-provider/current/mule-oauth2-provider.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="e87d96c0-4068-4dc6-a549-039f8fc737d6" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<os:object-store name="client_Object_store" doc:name="Object store" doc:id="5fddf911-1084-43b7-812b-571e9cf9cefb" />
+	<os:object-store name="token_Object_store" doc:name="Object store" doc:id="e80111d1-64c6-4249-903f-0616c9fe6ab0" />
+	<oauth2-provider:config name="OAuth2_Provider_Config" doc:name="OAuth2 Provider Config" doc:id="da312e0d-6d71-4754-87c9-ff60ff3eeef0" listenerConfig="HTTP_Listener_config" clientStore="client_Object_store" supportedGrantTypes="CLIENT_CREDENTIALS" >
+		<oauth2-provider:token-config tokenStore="token_Object_store" tokenTtl="30" tokenTtlTimeUnit="MINUTES" />
+	</oauth2-provider:config>
+</mule>
